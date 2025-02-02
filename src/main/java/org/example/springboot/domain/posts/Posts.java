@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(length = 500, nullable = false)
     private String title;
