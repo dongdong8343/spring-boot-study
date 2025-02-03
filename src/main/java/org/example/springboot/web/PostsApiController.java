@@ -1,0 +1,20 @@
+package org.example.springboot.web;
+
+import lombok.RequiredArgsConstructor;
+import org.example.springboot.service.posts.PostsService;
+import org.example.springboot.web.dto.PostsUpdateRequestDto;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RequiredArgsConstructor
+@RestController
+public class PostsApiController {
+    private final PostsService postsService;
+
+    @PutMapping("/api/v1/posts/{id}")
+    public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto) {
+        return postsService.update(id, requestDto);
+    }
+}
