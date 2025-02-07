@@ -29,11 +29,7 @@ public class PostsRepositoryTest {
         String title = "테스트 게시글";
         String content = "테스트 본문";
 
-        postsRepository.save(Posts.builder()
-                .title(title)
-                .content(content)
-                .author("dongdong")
-                .build());
+        postsRepository.save(Posts.ofPosts(title, content, "author"));
 
         // when
         List<Posts> postsList = postsRepository.findAll();
@@ -48,7 +44,7 @@ public class PostsRepositoryTest {
     public void BaseTimeEntity_등록() {
         // given
         LocalDateTime now = LocalDateTime.of(2025, 2, 4, 0, 0, 0);
-        postsRepository.save(Posts.builder().title("title").content("content").author("author").build());
+        postsRepository.save(Posts.ofPosts("title", "content", "author"));
 
         // when
         List<Posts> postsList = postsRepository.findAll();
