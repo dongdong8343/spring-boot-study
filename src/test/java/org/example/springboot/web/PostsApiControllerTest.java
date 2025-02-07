@@ -34,7 +34,7 @@ public class PostsApiControllerTest {
     @Test
     public void Posts_수정된다() throws Exception {
         // given
-        Posts savedPosts = postsRepository.save(Posts.builder().title("title").content("content").author("author").build());
+        Posts savedPosts = postsRepository.save(Posts.ofPosts("title", "content", "author"));
 
         Long updateId = savedPosts.getId();
         String expectedTitle = "title2";
