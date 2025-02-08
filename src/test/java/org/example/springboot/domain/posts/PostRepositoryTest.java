@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class PostsRepositoryTest {
+public class PostRepositoryTest {
     @Autowired
     PostsRepository postsRepository;
 
@@ -29,31 +29,31 @@ public class PostsRepositoryTest {
         String title = "테스트 게시글";
         String content = "테스트 본문";
 
-        postsRepository.save(Posts.ofPosts(title, content, "author"));
+        postsRepository.save(Post.ofPosts(title, content, "author"));
 
         // when
-        List<Posts> postsList = postsRepository.findAll();
+        List<Post> postList = postsRepository.findAll();
 
         // then
-        Posts posts = postsList.get(0);
-        assertThat(posts.getTitle()).isEqualTo(title);
-        assertThat(posts.getContent()).isEqualTo(content);
+        Post post = postList.get(0);
+        assertThat(post.getTitle()).isEqualTo(title);
+        assertThat(post.getContent()).isEqualTo(content);
     }
 
     @Test
     public void BaseTimeEntity_등록() {
         // given
         LocalDateTime now = LocalDateTime.of(2025, 2, 4, 0, 0, 0);
-        postsRepository.save(Posts.ofPosts("title", "content", "author"));
+        postsRepository.save(Post.ofPosts("title", "content", "author"));
 
         // when
-        List<Posts> postsList = postsRepository.findAll();
+        List<Post> postList = postsRepository.findAll();
 
         // then
-        Posts posts = postsList.get(0);
-        System.out.println(">>>>>>>>>> " + posts.getTitle());
-        System.out.println(">>>>>>>>>> createDate=" + posts.getCreatedDate() + ", modifiedDate=" + posts.getModifiedDate());
-        assertThat(posts.getCreatedDate()).isAfter(now);
-        assertThat(posts.getModifiedDate()).isAfter(now);
+        Post post = postList.get(0);
+        System.out.println(">>>>>>>>>> " + post.getTitle());
+        System.out.println(">>>>>>>>>> createDate=" + post.getCreatedDate() + ", modifiedDate=" + post.getModifiedDate());
+        assertThat(post.getCreatedDate()).isAfter(now);
+        assertThat(post.getModifiedDate()).isAfter(now);
     }
 }
