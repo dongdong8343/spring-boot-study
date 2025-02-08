@@ -1,10 +1,8 @@
 package org.example.springboot.domain.posts;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.example.springboot.domain.BaseTimeEntity;
 
 @Getter
