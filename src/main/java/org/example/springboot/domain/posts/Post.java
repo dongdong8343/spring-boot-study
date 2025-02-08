@@ -3,11 +3,12 @@ package org.example.springboot.domain.posts;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.springboot.web.dto.PostsUpdateRequestDto;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Posts {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,19 +21,19 @@ public class Posts {
 
     private String author;
 
-    private Posts(String title, String content, String author) {
+    private Post(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
     }
 
     // 정적 팩토리 메서드
-    public static Posts ofPosts(String title, String content, String author) {
-        return new Posts(title, content, author);
+    public static Post ofPosts(String title, String content, String author) {
+        return new Post(title, content, author);
     }
 
-    public void update(String title, String content) {
-        this.title = title;
-        this.content = content;
+    public void update(PostsUpdateRequestDto dto) {
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
     }
 }
