@@ -1,6 +1,6 @@
 package org.example.springboot.web;
 
-import org.example.springboot.domain.posts.Posts;
+import org.example.springboot.domain.posts.Post;
 import org.example.springboot.domain.posts.PostsRepository;
 import org.example.springboot.web.dto.PostsSaveRequestDto;
 import org.junit.jupiter.api.AfterEach;
@@ -36,15 +36,11 @@ public class PostsApiControllerTest {
     }
 
     @Test
-    public void Posts_등록된다() throws Exception {
+    public void Post_등록된다() throws Exception {
         // given
         String title = "title";
         String content = "content";
-        PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
-                .title(title)
-                .content(content)
-                .author("author")
-                .build();
+        PostsSaveRequestDto requestDto = PostsSaveRequestDto.saveRequest(title, content, "author");
 
         String url = "http://localhost:" + port + "/api/v1/posts";
 
@@ -55,7 +51,7 @@ public class PostsApiControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
-        List<Posts> all = postsRepository.findAll();
+        List<Post> all = postsRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(title);
         assertThat(all.get(0).getContent()).isEqualTo(content);
     }
