@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.springboot.domain.posts.Post;
 import org.example.springboot.domain.posts.PostsRepository;
 import org.example.springboot.web.dto.PostsUpdateRequestDto;
+import org.example.springboot.web.dto.PostsSaveRequestDto;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactiona;
 
 @RequiredArgsConstructor
 @Service
@@ -18,5 +19,9 @@ public class PostsService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         post.update(requestDto);
         return id;
+    }
+
+    public Long save(PostsSaveRequestDto requestDto) {
+        return postsRepository.save(requestDto.toEntity()).getId();
     }
 }
