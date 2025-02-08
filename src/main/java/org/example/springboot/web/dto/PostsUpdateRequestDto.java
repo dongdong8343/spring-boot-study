@@ -8,9 +8,12 @@ public class PostsUpdateRequestDto {
     private String title;
     private String content;
 
-    @Builder
-    public PostsUpdateRequestDto(String title, String content) {
+    private PostsUpdateRequestDto(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public static PostsUpdateRequestDto ofPostsUpdateRequestDTO(String title, String content) {
+        return new PostsUpdateRequestDto(title, content);
     }
 }

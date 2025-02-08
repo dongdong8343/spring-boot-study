@@ -1,7 +1,7 @@
 package org.example.springboot.service.posts;
 
 import lombok.RequiredArgsConstructor;
-import org.example.springboot.domain.posts.Posts;
+import org.example.springboot.domain.posts.Post;
 import org.example.springboot.domain.posts.PostsRepository;
 import org.example.springboot.web.dto.PostsUpdateRequestDto;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ public class PostsService {
 
     @Transactional
     public Long update(Long id, PostsUpdateRequestDto requestDto) {
-        Posts posts = postsRepository.findById(id)
+        Post post = postsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
-        posts.update(requestDto.getTitle(), requestDto.getContent());
+        post.update(requestDto);
         return id;
     }
 }

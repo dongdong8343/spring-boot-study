@@ -1,6 +1,6 @@
 package org.example.springboot.web;
 
-import org.example.springboot.domain.posts.Posts;
+import org.example.springboot.domain.posts.Post;
 import org.example.springboot.domain.posts.PostsRepository;
 import org.example.springboot.web.dto.PostsUpdateRequestDto;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PostsApiControllerTest {
+public class PostApiControllerTest {
     @LocalServerPort
     private int port;
 
@@ -34,12 +34,12 @@ public class PostsApiControllerTest {
     @Test
     public void Posts_수정된다() throws Exception {
         // given
-        Posts savedPosts = postsRepository.save(Posts.ofPosts("title", "content", "author"));
+        Post savedPost = postsRepository.save(Post.ofPosts("title", "content", "author"));
 
-        Long updateId = savedPosts.getId();
+        Long updateId = savedPost.getId();
         String expectedTitle = "title2";
         String expectedContent = "content2";
-        PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.builder().title(expectedTitle).content(expectedContent).build();
+        PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.ofPostsUpdateRequestDTO(expectedTitle, expectedContent);
 
         String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
         HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
@@ -51,7 +51,7 @@ public class PostsApiControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
-        List<Posts> all = postsRepository.findAll();
+        List<Post> all = postsRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
     }
