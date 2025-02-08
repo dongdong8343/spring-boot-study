@@ -6,7 +6,7 @@ import org.example.springboot.domain.posts.PostsRepository;
 import org.example.springboot.web.dto.PostsUpdateRequestDto;
 import org.example.springboot.web.dto.PostsSaveRequestDto;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactiona;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
