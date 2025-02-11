@@ -1,12 +1,15 @@
 package org.example.springboot.domain.posts;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.springboot.domain.BaseTimeEntity;
 
+import java.util.Arrays;
+
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Post extends BaseTimeEntity {
     @Id
