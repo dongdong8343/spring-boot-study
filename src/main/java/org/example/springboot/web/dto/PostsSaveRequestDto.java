@@ -1,6 +1,5 @@
 package org.example.springboot.web.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.springboot.domain.posts.Post;
@@ -12,14 +11,17 @@ public class PostsSaveRequestDto {
     private String content;
     private String author;
 
-    @Builder
-    public PostsSaveRequestDto(String title, String content, String author) {
+    private PostsSaveRequestDto(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
     }
 
-    public Post toEntity(){
+    public static PostsSaveRequestDto saveRequest(String title, String content, String author) {
+        return new PostsSaveRequestDto(title, content, author);
+    }
+
+    public Post toEntity() {
         return Post.ofPosts(this.title, this.content, this.author);
     }
 }

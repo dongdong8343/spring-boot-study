@@ -1,12 +1,15 @@
 package org.example.springboot.domain.posts;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.springboot.web.dto.PostsUpdateRequestDto;
 
+import java.util.Arrays;
+
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Post {
     @Id
