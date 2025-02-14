@@ -1,15 +1,17 @@
 package org.example.springboot.domain.posts;
 
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.springboot.domain.BaseTimeEntity;
 
+import java.util.Arrays;
+
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Posts extends BaseTimeEntity {
+public class Post extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,10 +24,14 @@ public class Posts extends BaseTimeEntity {
 
     private String author;
 
-    @Builder
-    public Posts(String title, String content, String author) {
+    private Post(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
+    }
+
+    // 정적 팩토리 메서드
+    public static Post ofPosts(String title, String content, String author) {
+        return new Post(title, content, author);
     }
 }
