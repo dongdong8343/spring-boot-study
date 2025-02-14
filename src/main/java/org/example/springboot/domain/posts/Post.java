@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.springboot.domain.BaseTimeEntity;
+import org.example.springboot.web.dto.PostsUpdateRequestDto;
 
 import java.util.Arrays;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Post extends BaseTimeEntity {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,5 +33,10 @@ public class Post extends BaseTimeEntity {
     // 정적 팩토리 메서드
     public static Post ofPosts(String title, String content, String author) {
         return new Post(title, content, author);
+    }
+
+    public void update(PostsUpdateRequestDto dto) {
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
     }
 }
