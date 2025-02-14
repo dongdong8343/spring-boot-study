@@ -1,5 +1,6 @@
 package org.example.springboot.web.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.springboot.domain.posts.Post;
@@ -21,7 +22,7 @@ public class PostsSaveRequestDto {
         return new PostsSaveRequestDto(title, content, author);
     }
 
-    public Post toEntity() {
+    public Post toEntity(){
         return Post.ofPosts(this.title, this.content, this.author);
     }
 }
