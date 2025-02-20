@@ -34,6 +34,8 @@ dependencies {
 
     // 스프링 시큐리티 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    implementation 'org.springframework.session:spring-session-jdbc'
 }
 
 test {
