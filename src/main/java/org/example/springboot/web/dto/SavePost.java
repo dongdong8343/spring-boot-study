@@ -1,7 +1,5 @@
 package org.example.springboot.web.dto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.springboot.domain.posts.Post;
@@ -19,6 +17,7 @@ public class SavePost {
         }
     }
 
+    @Getter
     public static class Response {
         private Long id;
         private String title;
