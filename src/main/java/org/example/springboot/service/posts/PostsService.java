@@ -16,29 +16,29 @@ public class PostsService {
     private final PostsRepository postsRepository;
 
     @Transactional
-    public Long save(PostsSaveRequestDto requestDto) {
-        return postsRepository.save(requestDto.toEntity()).getId();
+    public Long save(SavePost.Request request) {
+        return postsRepository.save(request.toEntity()).getId();
     }
 
     @Transactional
-    public Long update(Long id, PostsUpdateRequestDto requestDto) {
+    public Long update(Long id, UpdatePost.Request request) {
         Post post = postsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
-        post.update(requestDto);
+        post.update(request);
         return id;
     }
 
     @Transactional(readOnly = true)
-    public PostResponseDto findById(Long id) {
+    public SearchPost.Response findById(Long id) {
         Post entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        return PostResponseDto.fromEntity(entity);
+        return SearchPost.Response.fromEntity(entity);
     }
 
     @Transactional(readOnly = true)
-    public List<PostsListResponseDto> findAllDesc() {
+    public List<ReadPosts.Response> findAllDesc() {
         return postsRepository.findAllDesc().stream()
-                .map(PostsListResponseDto::new)
+                .map(ReadPosts.Response::new)
                 .collect(Collectors.toList());
     }
 

@@ -1,12 +1,10 @@
 package org.example.springboot.web;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.springboot.config.auth.LoginUser;
 import org.example.springboot.config.auth.dto.SessionUser;
 import org.example.springboot.service.posts.PostsService;
-import org.example.springboot.web.dto.PostResponseDto;
-import org.example.springboot.web.dto.PostsResponseDto;
+import org.example.springboot.web.dto.SearchPost;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +33,8 @@ public class IndexController {
 
     @GetMapping("/posts/update/{id}")
     public String postsUpdate(@PathVariable Long id, Model model) {
-        PostResponseDto dto = postsService.findById(id);
-        model.addAttribute("post", dto);
+        SearchPost.Response post = postsService.findById(id);
+        model.addAttribute("post", post);
 
         return "posts-update";
     }

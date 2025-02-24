@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.springboot.domain.BaseTimeEntity;
-import org.example.springboot.web.dto.PostsUpdateRequestDto;
+import org.example.springboot.web.dto.UpdatePost;
 
 import java.util.Arrays;
 @Getter
@@ -35,8 +35,8 @@ public class Post extends BaseTimeEntity {
         return new Post(title, content, author);
     }
 
-    public void update(PostsUpdateRequestDto dto) {
-        this.title = dto.getTitle();
-        this.content = dto.getContent();
+    public void update(UpdatePost.Request request) {
+        this.title = request.getTitle();
+        this.content = request.getContent();
     }
 }
