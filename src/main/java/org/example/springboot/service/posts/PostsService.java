@@ -3,6 +3,7 @@ package org.example.springboot.service.posts;
 import lombok.RequiredArgsConstructor;
 import org.example.springboot.domain.posts.Post;
 import org.example.springboot.domain.posts.PostsRepository;
+import org.example.springboot.provider.PostProvider;
 import org.example.springboot.web.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 public class PostsService {
     private final PostsRepository postsRepository;
+    private final PostProvider postProvider;
 
     @Transactional
     public SavePost.Response save(SavePost.Request request) {
@@ -24,30 +26,27 @@ public class PostsService {
 
     @Transactional
     public Long update(Long id, UpdatePost.Request request) {
-        Post post = postsRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        Post post = postProvider.searchPost(id);
         post.update(request);
         return id;
     }
 
     @Transactional(readOnly = true)
     public SearchPost.Response findById(Long id) {
-        Post entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+        Post entity = postProvider.searchPost(id);
 
         return SearchPost.Response.fromEntity(entity);
     }
 
     @Transactional(readOnly = true)
     public List<ReadPosts.Response> findAllDesc() {
-        return postsRepository.findAllDesc().stream()
-                .map(ReadPosts.Response::new)
-                .collect(Collectors.toList());
+        return postProvider.searchPosts();
     }
 
 
     @Transactional
     public void delete(Long id){
-        Post post = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
+        Post post = postProvider.searchPost(id);
 
         postsRepository.delete(post);
     }
