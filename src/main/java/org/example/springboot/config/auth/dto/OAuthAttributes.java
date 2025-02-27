@@ -3,6 +3,8 @@ package org.example.springboot.config.auth.dto;
 import lombok.Getter;
 import org.example.springboot.domain.user.Role;
 import org.example.springboot.domain.user.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Map;
 
@@ -41,6 +43,6 @@ public class OAuthAttributes {
     }
 
     public User toEntity(){
-        return User.ofUser(name, email, picture, Role.GUEST);
+        return User.ofUser(name, email, picture, Role.USER);
     }
 }
