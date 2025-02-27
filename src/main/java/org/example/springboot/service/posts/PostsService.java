@@ -3,6 +3,7 @@ package org.example.springboot.service.posts;
 import lombok.RequiredArgsConstructor;
 import org.example.springboot.domain.posts.Post;
 import org.example.springboot.domain.posts.PostsRepository;
+import org.example.springboot.provider.PostProvider;
 import org.example.springboot.web.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,38 +15,38 @@ import java.util.stream.Collectors;
 @Service
 public class PostsService {
     private final PostsRepository postsRepository;
+    private final PostProvider postProvider;
 
     @Transactional
-    public Long save(PostsSaveRequestDto requestDto) {
-        return postsRepository.save(requestDto.toEntity()).getId();
+    public SavePost.Response save(SavePost.Request request) {
+        Long postId = postsRepository.save(request.toEntity()).getId();
+
+        return SavePost.Response.fromRequest(postId, request);
     }
 
     @Transactional
-    public Long update(Long id, PostsUpdateRequestDto requestDto) {
-        Post post = postsRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
-        post.update(requestDto);
+    public Long update(Long id, UpdatePost.Request request) {
+        Post post = postProvider.searchPost(id);
+        post.update(request);
         return id;
     }
 
     @Transactional(readOnly = true)
-    public PostResponseDto findById(Long id) {
-        Post entity = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+    public SearchPost.Response findById(Long id) {
+        Post entity = postProvider.searchPost(id);
 
-        return PostResponseDto.fromEntity(entity);
+        return SearchPost.Response.fromEntity(entity);
     }
 
     @Transactional(readOnly = true)
-    public List<PostsListResponseDto> findAllDesc() {
-        return postsRepository.findAllDesc().stream()
-                .map(PostsListResponseDto::new)
-                .collect(Collectors.toList());
+    public List<ReadPosts.Response> findAllDesc() {
+        return postProvider.searchPosts();
     }
 
 
     @Transactional
     public void delete(Long id){
-        Post post = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
+        Post post = postProvider.searchPost(id);
 
         postsRepository.delete(post);
     }
