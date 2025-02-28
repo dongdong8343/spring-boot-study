@@ -14,14 +14,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class PostsService {
-    private final PostsRepository postsRepository;
     private final PostProvider postProvider;
 
     @Transactional
     public SavePost.Response save(SavePost.Request request) {
-        Long postId = postsRepository.save(request.toEntity()).getId();
-
-        return SavePost.Response.fromRequest(postId, request);
+        return postProvider.save(request);
     }
 
     @Transactional
@@ -46,8 +43,6 @@ public class PostsService {
 
     @Transactional
     public void delete(Long id){
-        Post post = postProvider.searchPost(id);
-
-        postsRepository.delete(post);
+        postProvider.delete(id);
     }
 }

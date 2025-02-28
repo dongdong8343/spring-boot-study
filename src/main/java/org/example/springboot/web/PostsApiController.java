@@ -5,8 +5,6 @@ import org.example.springboot.service.posts.PostsService;
 import org.example.springboot.web.dto.SavePost;
 import org.example.springboot.web.dto.SearchPost;
 import org.example.springboot.web.dto.UpdatePost;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor

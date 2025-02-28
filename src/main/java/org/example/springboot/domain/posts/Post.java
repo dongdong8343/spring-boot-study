@@ -12,7 +12,7 @@ import org.hibernate.annotations.SQLRestriction;
 import java.util.Arrays;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE post set is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE post set is_deleted = true WHERE id = ?") // 직관적이지 않다.
 @SQLRestriction("is_deleted = false")
 @Entity
 public class Post extends BaseTimeEntity {
@@ -28,7 +28,7 @@ public class Post extends BaseTimeEntity {
 
     private String author;
 
-    private Boolean is_deleted;
+    private Boolean is_deleted; // 언더바 안된다.!!!!!!!
 
     private Post(String title, String content, String author, Boolean is_deleted) {
         this.title = title;
@@ -42,8 +42,14 @@ public class Post extends BaseTimeEntity {
         return new Post(title, content, author, false);
     }
 
-    public void update(UpdatePost.Request request) {
+    public void update(UpdatePost.Request request) { // 이 친구는 빠져야한다.
         this.title = request.getTitle();
         this.content = request.getContent();
+    }
+
+
+    public void delete(){
+        this.is_deleted = true;
+
     }
 }
