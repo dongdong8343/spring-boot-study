@@ -28,9 +28,7 @@ public class PostProvider {
     }
 
     public List<ReadPosts.Response> searchPosts() {
-        return postsRepository.findByIsDeletedIsNull().stream()
-                .map(ReadPosts.Response::new) // 변환이 여기 있을 필요 x -> ReadPosts에서 변환할 수 있도록
-                .collect(Collectors.toList());
+        return ReadPosts.Response.toResponse(postsRepository.findByIsDeletedIsNull());
     }
 
     @Transactional

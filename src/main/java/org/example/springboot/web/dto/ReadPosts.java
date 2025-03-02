@@ -4,6 +4,8 @@ import lombok.Getter;
 import org.example.springboot.domain.posts.Post;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReadPosts {
     @Getter
@@ -18,6 +20,16 @@ public class ReadPosts {
             this.title = entity.getTitle();
             this.author = entity.getAuthor();
             this.modifiedDate = entity.getModifiedDate();
+        }
+
+        public static ReadPosts.Response toResponse(Post post) {
+            return new Response(post);
+        }
+
+        public static List<Response> toResponse(List<Post> posts) {
+            return posts.stream()
+                    .map(Response::toResponse)
+                    .collect(Collectors.toList());
         }
     }
 }
