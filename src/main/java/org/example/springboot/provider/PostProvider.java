@@ -7,6 +7,7 @@ import org.example.springboot.domain.posts.PostsRepository;
 import org.example.springboot.web.dto.ReadPosts;
 import org.example.springboot.web.dto.SavePost;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,17 +24,18 @@ public class PostProvider {
     }
 
     public Post searchPost(Long id) {
-        return postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
+        return postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
     }
 
     public List<ReadPosts.Response> searchPosts() {
-        return postsRepository.findAllDesc().stream()
+        return postsRepository.findByIsDeletedIsNull().stream()
                 .map(ReadPosts.Response::new) // 변환이 여기 있을 필요 x -> ReadPosts에서 변환할 수 있도록
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void delete(Long id) {
         Post post = searchPost(id);
-        postsRepository.delete(post);
+        post.delete();
     }
 }

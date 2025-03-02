@@ -24,7 +24,7 @@ public class PostsService {
     @Transactional
     public Long update(Long id, UpdatePost.Request request) {
         Post post = postProvider.searchPost(id);
-        post.update(request);
+        post.update(request.getTitle(), request.getContent());
         return id;
     }
 
