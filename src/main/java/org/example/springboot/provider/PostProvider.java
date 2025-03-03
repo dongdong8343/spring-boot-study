@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class PostProvider {
     }
 
     public Post searchPost(Long id) {
-        return postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
+        return postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(IllegalArgumentException::new);
     }
 
     public List<ReadPosts.Response> searchPosts() {
