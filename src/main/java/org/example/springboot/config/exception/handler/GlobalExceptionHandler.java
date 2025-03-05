@@ -18,6 +18,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(e.getErrorCode());
     }
 
+    // IllegalArgumentException 에러 처리
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException e) {
+        return handleExceptionInternal(CommonErrorCode.INVALID_PARAMETER, e.getMessage());
+    }
+
+
     // 대부분의 에러 처리
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAllException(Exception ex) {
