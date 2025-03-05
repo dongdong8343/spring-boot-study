@@ -2,7 +2,7 @@ package org.example.springboot.config.exception.handler;
 
 import org.example.springboot.config.exception.errorCode.CommonErrorCode;
 import org.example.springboot.config.exception.errorCode.ErrorCode;
-import org.example.springboot.config.exception.exception.RestApiException;
+import org.example.springboot.config.exception.exception.PostNotFoundException;
 import org.example.springboot.config.exception.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,18 +12,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // RuntimeException 처리
-    @ExceptionHandler(RestApiException.class)
-    public ResponseEntity<Object> handleCustomException(RestApiException e) {
+    // PostNotFoundException 처리
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<Object> handleCustomException(PostNotFoundException e) {
         return handleExceptionInternal(e.getErrorCode());
     }
-
-    // IllegalArgumentException 에러 처리
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException e) {
-        return handleExceptionInternal(CommonErrorCode.INVALID_PARAMETER, e.getMessage());
-    }
-
 
     // 대부분의 에러 처리
     @ExceptionHandler({Exception.class})

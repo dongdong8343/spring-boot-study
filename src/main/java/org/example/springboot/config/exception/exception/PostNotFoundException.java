@@ -6,6 +6,6 @@ import org.example.springboot.config.exception.errorCode.ErrorCode;
 
 @Getter
 @RequiredArgsConstructor
-public class RestApiException extends RuntimeException{
+public class PostNotFoundException extends RuntimeException{
     private final ErrorCode errorCode;
 }

@@ -2,6 +2,8 @@ package org.example.springboot.provider;
 
 
 import lombok.RequiredArgsConstructor;
+import org.example.springboot.config.exception.errorCode.CommonErrorCode;
+import org.example.springboot.config.exception.exception.PostNotFoundException;
 import org.example.springboot.domain.posts.Post;
 import org.example.springboot.domain.posts.PostsRepository;
 import org.example.springboot.web.dto.ReadPosts;
@@ -23,7 +25,7 @@ public class PostProvider {
     }
 
     public Post searchPost(Long id) {
-        return postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(IllegalArgumentException::new);
+        return postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(() -> new PostNotFoundException(CommonErrorCode.INVALID_PARAMETER));
     }
 
     public List<ReadPosts.Response> searchPosts() {

@@ -2,7 +2,6 @@ package org.example.springboot.config.exception.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
-import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 
 import java.util.List;
