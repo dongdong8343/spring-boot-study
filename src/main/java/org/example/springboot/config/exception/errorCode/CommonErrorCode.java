@@ -15,3 +15,6 @@ public enum CommonErrorCode implements ErrorCode {
     private final HttpStatus httpStatus;
     private final String message;
 }
+
+// 공통적으로 발생하는 에러코드를 enum으로 관리 -> 한정된 수의 변하지 않는 상수값 관리하기 용이
+// 불필요한 객체 생성 방지

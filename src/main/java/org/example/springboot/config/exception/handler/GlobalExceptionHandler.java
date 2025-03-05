@@ -5,13 +5,9 @@ import org.example.springboot.config.exception.errorCode.ErrorCode;
 import org.example.springboot.config.exception.exception.RestApiException;
 import org.example.springboot.config.exception.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -54,22 +50,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     // 코드 가독성을 위해 에러 처리 메세지를 만드는 메소드 분리
     private ErrorResponse makeErrorResponse(ErrorCode errorCode, String message) {
         return ErrorResponse.of(errorCode.name(), errorCode.getMessage());
-    }
-
-    // @Valid 어노테이션으로 넘어오는 에러 처리 메세지를 보내기 위한 메소드
-    private ResponseEntity<Object> handleExceptionInternal(BindException e, ErrorCode errorCode) {
-        return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(makeErrorResponse(e, errorCode));
-    }
-
-    // 코드 가독성을 위해 에러 처리 메세지를 만드는 메소드 분리
-    private ErrorResponse makeErrorResponse(BindException e, ErrorCode errorCode) {
-        List<ErrorResponse.ValidationError> validationErrorList = e.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(ErrorResponse.ValidationError::of)
-                .collect(Collectors.toList());
-
-        return ErrorResponse.of(errorCode.name(), errorCode.getMessage(), validationErrorList);
     }
 }
