@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostsApiController {
     private final PostsService postsService;
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public Long update(@PathVariable Long id, @RequestBody UpdatePost.Request updatePost) {
         return postsService.update(id, updatePost);
     }
