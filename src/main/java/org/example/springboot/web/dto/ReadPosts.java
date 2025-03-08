@@ -29,7 +29,7 @@ public class ReadPosts {
         public static List<Response> toResponse(List<Post> posts) {
             return posts.stream()
                     .map(Response::toResponse)
-                    .collect(Collectors.toList());
+                    .toList();
         }
     }
 }
