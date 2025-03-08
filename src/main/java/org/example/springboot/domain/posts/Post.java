@@ -27,16 +27,15 @@ public class Post extends BaseTimeEntity {
 
     private LocalDateTime isDeleted;
 
-    private Post(String title, String content, String author, LocalDateTime isDeleted) {
+    private Post(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.isDeleted = isDeleted;
     }
 
     // 정적 팩토리 메서드
     public static Post ofPosts(String title, String content, String author) {
-        return new Post(title, content, author, null);
+        return new Post(title, content, author);
     }
 
     public void update(String title, String content) {
