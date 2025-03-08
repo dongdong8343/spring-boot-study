@@ -16,32 +16,28 @@ import java.util.stream.Collectors;
 public class PostsService {
     private final PostProvider postProvider;
 
-    @Transactional
     public SavePost.Response save(SavePost.Request request) {
-        return postProvider.save(request);
+        Post post = postProvider.save(request.toEntity());
+
+        return SavePost.Response.toResponse(post);
     }
 
-    @Transactional
     public Long update(Long id, UpdatePost.Request request) {
         Post post = postProvider.searchPost(id);
         post.update(request.getTitle(), request.getContent());
         return id;
     }
 
-    @Transactional(readOnly = true)
     public SearchPost.Response findById(Long id) {
         Post entity = postProvider.searchPost(id);
 
         return SearchPost.Response.fromEntity(entity);
     }
 
-    @Transactional(readOnly = true)
     public List<ReadPosts.Response> findAllDesc() {
-        return postProvider.searchPosts();
+        return ReadPosts.Response.toResponse(postProvider.searchPosts());
     }
 
-
-    @Transactional
     public void delete(Long id){
         postProvider.delete(id);
     }
