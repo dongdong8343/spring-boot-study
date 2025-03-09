@@ -2,8 +2,7 @@ package org.example.springboot.provider;
 
 
 import lombok.RequiredArgsConstructor;
-import org.example.springboot.config.exception.errorCode.CommonErrorCode;
-import org.example.springboot.config.exception.exception.PostNotFoundException;
+import org.example.springboot.config.error.exception.PostNotFoundException;
 import org.example.springboot.domain.posts.Post;
 import org.example.springboot.domain.posts.PostsRepository;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,7 @@ public class PostProvider {
 
     @Transactional(readOnly = true)
     public Post searchPost(Long id) {
-        return postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(() -> new PostNotFoundException(CommonErrorCode.INVALID_PARAMETER));
+        return postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(PostNotFoundException::new);
     }
 
     @Transactional(readOnly = true)
@@ -33,7 +32,7 @@ public class PostProvider {
 
     @Transactional
     public void delete(Long id) {
-        Post post = postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(() -> new PostNotFoundException(CommonErrorCode.INVALID_PARAMETER));
+        Post post = postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(PostNotFoundException::new);
 
         post.delete();
     }
