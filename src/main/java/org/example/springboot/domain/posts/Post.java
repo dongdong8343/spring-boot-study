@@ -5,15 +5,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.springboot.domain.BaseTimeEntity;
-import org.example.springboot.web.dto.UpdatePost;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
-import java.util.Arrays;
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE post set is_deleted = true WHERE id = ?")
-@SQLRestriction("is_deleted = false")
 @Entity
 public class Post extends BaseTimeEntity {
     @Id
@@ -28,22 +25,25 @@ public class Post extends BaseTimeEntity {
 
     private String author;
 
-    private Boolean is_deleted;
+    private LocalDateTime isDeleted;
 
-    private Post(String title, String content, String author, Boolean is_deleted) {
+    private Post(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.is_deleted = is_deleted;
     }
 
     // 정적 팩토리 메서드
     public static Post ofPosts(String title, String content, String author) {
-        return new Post(title, content, author, false);
+        return new Post(title, content, author);
     }
 
-    public void update(UpdatePost.Request request) {
-        this.title = request.getTitle();
-        this.content = request.getContent();
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public void delete(){
+        this.isDeleted = LocalDateTime.now();
     }
 }

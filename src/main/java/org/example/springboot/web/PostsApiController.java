@@ -5,31 +5,30 @@ import org.example.springboot.service.posts.PostsService;
 import org.example.springboot.web.dto.SavePost;
 import org.example.springboot.web.dto.SearchPost;
 import org.example.springboot.web.dto.UpdatePost;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/posts")
 public class PostsApiController {
     private final PostsService postsService;
 
-    @PutMapping("/api/v1/posts/{id}")
+    @PatchMapping("/{id}")
     public Long update(@PathVariable Long id, @RequestBody UpdatePost.Request updatePost) {
         return postsService.update(id, updatePost);
     }
 
-    @PostMapping("/api/v1/posts")
+    @PostMapping
     public SavePost.Response save(@RequestBody SavePost.Request request) {
         return postsService.save(request);
     }
 
-    @GetMapping("/api/v1/posts/{id}")
+    @GetMapping("/{id}")
     public SearchPost.Response findById(@PathVariable Long id) {
         return postsService.findById(id);
     }
 
-    @DeleteMapping("/api/v1/posts/{id}")
+    @DeleteMapping("/{id}")
     public Long delete(@PathVariable Long id){
         postsService.delete(id);
         return id;

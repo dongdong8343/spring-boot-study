@@ -31,8 +31,8 @@ public class SavePost {
             this.author = author;
         }
 
-        public static Response fromRequest(Long postId, Request saveRequest) {
-            return new Response(postId, saveRequest.title, saveRequest.content, saveRequest.author);
+        public static Response toResponse(Post post) {
+            return new Response(post.getId(), post.getTitle(), post.getContent(), post.getAuthor());
         }
     }
 }

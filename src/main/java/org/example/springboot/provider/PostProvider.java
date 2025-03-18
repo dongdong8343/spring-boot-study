@@ -2,26 +2,38 @@ package org.example.springboot.provider;
 
 
 import lombok.RequiredArgsConstructor;
+import org.example.springboot.config.error.exception.PostNotFoundException;
 import org.example.springboot.domain.posts.Post;
 import org.example.springboot.domain.posts.PostsRepository;
-import org.example.springboot.web.dto.ReadPosts;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class PostProvider {
     private final PostsRepository postsRepository;
 
-    public Post searchPost(Long id) {
-        return postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
+    @Transactional
+    public Post save(Post post) {
+        return postsRepository.save(post);
     }
 
-    public List<ReadPosts.Response> searchPosts() {
-        return postsRepository.findAllDesc().stream()
-                .map(ReadPosts.Response::new)
-                .collect(Collectors.toList());
+    @Transactional(readOnly = true)
+    public Post searchPost(Long id) {
+        return postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(PostNotFoundException::new);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Post> searchPosts() {
+        return postsRepository.findByIsDeletedIsNull();
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Post post = postsRepository.findByIdAndIsDeletedIsNull(id).orElseThrow(PostNotFoundException::new);
+
+        post.delete();
     }
 }
